@@ -13,15 +13,13 @@ public class loader {
             r = new BufferedReader(new FileReader(String.format("data%d.txt", set)));
             r.readLine();
             while((x = r.readLine()) != null)
-                for(int i = 0; i < length + 1; i++)
+            {
+                for(String s : x.split(" "))
                 {
-                    if(i != length - 1)
-                    {
-                        for(String s : x.split(" "))
-                            toRead[index] = Float.parseFloat(s);
-                        index++;
-                    }
+                    toRead[index] = Float.parseFloat(s);
+                    index++;
                 }
+            }
         } catch(Exception e){System.out.println(e);}
         return toRead;
     }
