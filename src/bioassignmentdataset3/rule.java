@@ -54,10 +54,10 @@ public class rule {
         for(int i = 0; i < 6; i++)
         {
             if(r[rl + i * 2] <= r[rl + i * 2 + 1]){
-                if(r[rl + i * 2] >= data[dl + i] || data[dl + i] >= r[rl + i * 2 + 1])
+                if(r[rl + i * 2] > data[dl + i] || data[dl + i] > r[rl + i * 2 + 1])
                     return false;
             }else
-                if(r[rl + i * 2] <= data[dl + i] || data[dl + i] <= r[rl + i * 2 + 1])
+                if(r[rl + i * 2] < data[dl + i] || data[dl + i] < r[rl + i * 2 + 1])
                     return false;
         }
         return true;

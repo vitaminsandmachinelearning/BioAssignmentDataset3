@@ -6,8 +6,9 @@
 package bioassignmentdataset3;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Random;
+import java.nio.charset.Charset;
+import java.nio.file.*;
+import java.util.*;
 
 /**
  *
@@ -20,26 +21,35 @@ public class BioAssignmentDataset3 {
         
         int bi = 0;
         int best = 0;
+        int worst = 1000000;
+        int avg = 0;
+        ArrayList<String> lines = new ArrayList<>();
+        Path file = Paths.get(String.format("DS3VRC%d.txt", rng.nextInt(Integer.MAX_VALUE)));
         
         for(int i = 0; i < poolsize; i++)
             rules[i] = new rule(rulelength, rulecount, rng);
         for(rule r : rules)
-        {
             r.getFitness(data);
-            //System.out.println(r.toString());
-        }
         for(int gen = 0; gen < generations; gen++)
         {
-            //System.out.println("gen");
+            worst = 1000000;
+            for(rule r : rules)
+            {
+                int fit = r.getFitness(data);
+                if(fit > best)
+                    best = fit;
+                if(fit < worst)
+                    worst = fit;
+                avg += fit;
+            }
+            avg /= poolsize;
+            lines.add(String.format("%s\t%s\t%s",worst,avg,best));
             for(int i = 0; i < poolsize; i++)
             {
                 int a = rng.nextInt(poolsize);
                 int b = rng.nextInt(poolsize);
                 offspring[i] = rules[a].fitness > rules[b].fitness ? new rule(rulelength, rulecount, Arrays.copyOf(rules[a].r, rules[a].r.length)) : new rule(rulelength, rulecount, Arrays.copyOf(rules[b].r, rules[b].r.length));
             }
-            //System.out.println("tourny");
-            //for(rule r : offspring)
-            //    System.out.println(r.toString());
             for(int i = 0; i < poolsize; i+=2)
             {
                 int c = rng.nextInt(rulelength * rulecount);
@@ -51,9 +61,6 @@ public class BioAssignmentDataset3 {
                     offspring[i + 1].r[j] = t;
                 }
             }
-            //System.out.println("cross");
-            //for(rule r : offspring)
-            //    System.out.println(r.toString());
             for(int i = 0; i < poolsize; i++)
             {
                 for(int j = 0; j < rulelength * rulecount; j++)
@@ -63,14 +70,10 @@ public class BioAssignmentDataset3 {
                         else if(j % rulelength == 0 || j != 0)
                             offspring[i].r[j] = offspring[i].r[j] == 1 ? 0 : 1;
             }
-            //System.out.println("mut");
-            //for(rule r : offspring)
-            //    System.out.println(r.toString());
             rules = Arrays.copyOf(offspring, poolsize);
-            //System.out.println("copy");
-            //for(rule r : rules)
-            //    System.out.println(r.toString());
         }
+        best = 0;
+        bi = 0;
         for(int i = 0; i < rules.length; i++)
         {
             int t = rules[bi].getFitness(data);
@@ -80,6 +83,8 @@ public class BioAssignmentDataset3 {
                 bi = i;
             }
         }
+        
+        Files.write(file, lines, Charset.forName("UTF-8"));
         return rules[bi];
     }
     

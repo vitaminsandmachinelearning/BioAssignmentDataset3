@@ -13,14 +13,15 @@ import java.util.Random;
  * @author Jake
  */
 public class Overlord {
+    //USED TO RUN MULTIPLE GAS IN A ROW
     static BioAssignmentDataset3 bad3 = new BioAssignmentDataset3();
     static Random rng = new Random();
     
-    static int tests = 100;
+    static int tests = 10;
     
-    static int poolsize = 100;
+    static int poolsize = 200;
     static int rulelength = 13;
-    static int rulecount = 100;
+    static int rulecount = 150;
     static int generations = 500;
     
     static float mutationrate = 1f / (rulelength * rulecount);
