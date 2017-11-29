@@ -17,7 +17,7 @@ public class Overlord {
     static BioAssignmentDataset3 bad3 = new BioAssignmentDataset3();
     static Random rng = new Random();
     
-    static int tests = 5;
+    static int tests = 10;
     
     static int poolsize = 200;
     static int rulelength = 13;
@@ -33,10 +33,10 @@ public class Overlord {
         rule r = new rule(1,1,new float[]{0f});
         int fit = 0;
         int bfit = 0;
-        for(int i = 0; i < tests; i++)
+        for(int i = 1; i < tests + 1; i++)
         {
             System.out.println("Test: " + i);
-            r = bad3.run(poolsize, rulelength, rulecount, rng, data, generations, mutationrate);
+            r = bad3.run(poolsize, rulelength, rulecount, rng, data, generations, mutationrate, i);
             fit = r.fitness;
             if(fit > bfit)
                 bfit = fit;

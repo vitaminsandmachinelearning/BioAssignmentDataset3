@@ -15,7 +15,7 @@ import java.util.*;
  * @author Jake
  */
 public class BioAssignmentDataset3 {
-    public rule run(int poolsize, int rulelength, int rulecount, Random rng, float[] data, int generations, float mutationrate) throws IOException {
+    public rule run(int poolsize, int rulelength, int rulecount, Random rng, float[] data, int generations, float mutationrate, int testno) throws IOException {
         rule[] rules = new rule[poolsize];
         rule[] offspring = new rule[poolsize];
         
@@ -24,7 +24,7 @@ public class BioAssignmentDataset3 {
         int worst = 1000000;
         int avg = 0;
         ArrayList<String> lines = new ArrayList<>();
-        Path file = Paths.get(String.format("DS3VRC%d.txt", rng.nextInt(Integer.MAX_VALUE)));
+        Path file = Paths.get(String.format("DS3VROR%d.txt", testno));
         
         for(int i = 0; i < poolsize; i++)
             rules[i] = new rule(rulelength, rulecount, rng);
